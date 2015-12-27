@@ -2,7 +2,7 @@ package cn.edu.sdut.r314;
 
 public class SimpleBread implements Bread {
 	public String bake() {
-		return "baking a bread";
+		return "baking bread";
 	}
 
 }

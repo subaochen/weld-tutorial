@@ -2,11 +2,11 @@
 
 <beans xmlns="http://java.sun.com/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="
-      http://java.sun.com/xml/ns/javaee 
+      http://java.sun.com/xml/ns/javaee
       http://java.sun.com/xml/ns/javaee/beans_1_0.xsd">
 	<!-- To activate CDI decorator, it must be specified below -->
 	<decorators>
-		<class>cn.edu.sdut.r314.EggDecorator</class>
 		<class>cn.edu.sdut.r314.SugarDecorator</class>
+		<class>cn.edu.sdut.r314.EggDecorator</class>
 	</decorators>
 </beans>
