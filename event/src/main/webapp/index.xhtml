@@ -8,11 +8,12 @@
       xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core">
 <h:head>
     <title>welcome to weld event demo</title>
-    <!-- css style partly from:www.coreservlets.com/JSF-Tutorial/jsf2 -->
+    <!-- css style partly from: http://www.coreservlets.com/JSF-Tutorial/jsf2 -->
     <link href="css/styles.css" rel="stylesheet" type="text/css"/> 
     <link href="css/table-styles.css" rel="stylesheet" type="text/css"/>
 </h:head>
 <h:body>
+<h:form>
 <h:dataTable var="room"
     value="#{roomController.availableRooms}"
     border="1"
@@ -20,16 +21,53 @@
     captionClass="caption1"
     headerClass="heading"
     rowClasses="even,odd">
-    <f:facet name="caption">可入住房间列表</f:facet>
+    <f:facet name="caption">空闲房间列表</f:facet>
     <h:column>
         <f:facet name="header">房间号</f:facet>
         <h:outputText value="#{room.no}"/>
     </h:column>
+    <h:column>
+        <f:facet name="header">人数</f:facet>
+        <h:outputText value="#{room.capacity}"/>
+    </h:column>
     
     <h:column>
         <f:facet name="header">操作</f:facet>
-        <h:commandButton value="点击入住"></h:commandButton>
+        <h:commandButton value="点击入住" action="#{roomController.checkIn(room)}"/>
+        <h:commandButton value="删除房间" action="#{roomController.removeRoom(room)}"/>
     </h:column>
 </h:dataTable>
+
+<h:dataTable var="room"
+    value="#{roomController.checkedInRooms}"
+    border="1"
+    styleClass="mainTable"
+    captionClass="caption1"
+    headerClass="heading"
+    rowClasses="even,odd">
+    <f:facet name="caption">已入住房间列表</f:facet>
+    <h:column>
+        <f:facet name="header">房间号</f:facet>
+        <h:outputText value="#{room.no}"/>
+    </h:column>
+    <h:column>
+        <f:facet name="header">人数</f:facet>
+        <h:outputText value="#{room.capacity}"/>
+    </h:column>
+    
+    <h:column>
+        <f:facet name="header">操作</f:facet>
+        <h:commandButton value="点击退房" action="#{roomController.checkOut(room)}"/>
+    </h:column>
+</h:dataTable>
+
+<fieldset>
+    <legend>增加房间</legend>
+    房间号：<h:inputText name="no" value="#{roomController.newRoom.no}"/>
+    大小：<h:inputText name="capacity" value="#{roomController.newRoom.capacity}"/>
+    <h:commandButton value="增加房间" action="#{roomController.addRoom}"/>
+</fieldset>
+
+</h:form>
 </h:body>
 </html>

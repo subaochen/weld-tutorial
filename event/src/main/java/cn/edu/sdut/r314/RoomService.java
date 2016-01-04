@@ -1,15 +1,12 @@
 package cn.edu.sdut.r314;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.annotation.PostConstruct;
 import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.event.Observes;
 import javax.inject.Named;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import javax.annotation.PostConstruct;
 
 /**
  * 房间管理
@@ -19,59 +16,68 @@ import javax.annotation.PostConstruct;
 @ApplicationScoped
 @Named("roomService")
 public class RoomService {
-	private List<Room> allRooms = new ArrayList<Room>(0);
-	private List<Room> availableRooms = new ArrayList<Room>(0);
-	private List<Room> checkedInRooms = new ArrayList<Room>(0);
-	
+	private List<Room> rooms = new ArrayList<Room>(0);
+
 	/**
 	 * 客户入住
 	 * @param room
 	 */
 	public void onRoomCheckIn(@Observes @CheckIn Room room ) {
-		availableRooms.remove(room);
-		checkedInRooms.add(room);
+		setRoomStatus(room,RoomStatus.CHECKED_IN);
 	}
-	
+
 	/**
 	 * 客户退房
 	 * @param room
 	 */
 	public void onRoomCheckOut(@Observes @CheckOut Room room) {
-		checkedInRooms.remove(room);
-		availableRooms.add(room);
+		setRoomStatus(room,RoomStatus.AVAILABLE);
 	}
 	
+	private void setRoomStatus(Room room,RoomStatus status) {
+		for(Room r:rooms){
+			if(r.getNo().equals(room.getNo())) {
+				r.setStatus(status.toString());
+				break;
+			}
+		}
+	}
+
+    public void onAddRoom(@Observes @Add Room room){
+    	room.setStatus(RoomStatus.AVAILABLE.toString());
+        rooms.add(room);
+    }
+
+    public void onRemoveRoom(@Observes @Remove Room room){
+        rooms.remove(room);
+    }
+
 	@PostConstruct
 	public void init(){
-		Room r1 = new Room("101-1");// 单人间
-		Room r2 = new Room("104-1");// 单人间
-		Room r3 = new Room("102-2");// 双人间
-		Room r4 = new Room("103-3");// 三人间
-		
-		allRooms.add(r1);
-		allRooms.add(r2);
-		allRooms.add(r3);
-		allRooms.add(r4);
-		
-		availableRooms.add(r1);
-		availableRooms.add(r2);
-		availableRooms.add(r3);
-		availableRooms.add(r4);
-		
-		checkedInRooms.clear();
+		rooms.add(new Room("101",RoomStatus.AVAILABLE.toString(),1));
+		rooms.add(new Room("104",RoomStatus.AVAILABLE.toString(),1));
+		rooms.add(new Room("102",RoomStatus.AVAILABLE.toString(),2));
+		rooms.add(new Room("103",RoomStatus.AVAILABLE.toString(),3));
 	}
 
 
+	private List<Room> getRooms(RoomStatus status) {
+		List<Room> list = new ArrayList<Room>(0);
+		for(Room r:rooms)
+			if(r.getStatus().equals(status.toString())) list.add(r);
+		
+		return list;
+	}
 	public List<Room> getAvailableRooms(){
-		return availableRooms;
+		return getRooms(RoomStatus.AVAILABLE);
 	}
-	
+
 	public List<Room> getCheckedInRooms() {
-		return checkedInRooms;
+		return getRooms(RoomStatus.CHECKED_IN);
 	}
-	
+
 	public List<Room> getAllRooms(){
-		return allRooms;
+		return rooms;
 	}
-	
+
 }
