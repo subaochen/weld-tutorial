@@ -19,20 +19,17 @@ import javax.annotation.PostConstruct;
 @ApplicationScoped
 @Named("roomService")
 public class RoomService {
-	protected Map<String,Room> rooms = new HashMap<String, Room>();
+	private List<Room> allRooms = new ArrayList<Room>(0);
+	private List<Room> availableRooms = new ArrayList<Room>(0);
+	private List<Room> checkedInRooms = new ArrayList<Room>(0);
 	
-	public List<Room> getAvailableRooms(){
-		List<Room> list = new ArrayList<Room>();
-		
-		return list;
-	}
-
 	/**
 	 * 客户入住
 	 * @param room
 	 */
 	public void onRoomCheckIn(@Observes @CheckIn Room room ) {
-		rooms.remove(room.getNo());
+		availableRooms.remove(room);
+		checkedInRooms.add(room);
 	}
 	
 	/**
@@ -40,15 +37,41 @@ public class RoomService {
 	 * @param room
 	 */
 	public void onRoomCheckOut(@Observes @CheckOut Room room) {
-		rooms.put(room.getNo(), room);
+		checkedInRooms.remove(room);
+		availableRooms.add(room);
 	}
 	
 	@PostConstruct
 	public void init(){
-		rooms.put("101-1", new Room("101-1")); // 单人间
-		rooms.put("104-1", new Room("104-1")); // 单人间
-		rooms.put("102-2", new Room("102-2")); // 双人间
-		rooms.put("103-3", new Room("103-3")); // 三人间
+		Room r1 = new Room("101-1");// 单人间
+		Room r2 = new Room("104-1");// 单人间
+		Room r3 = new Room("102-2");// 双人间
+		Room r4 = new Room("103-3");// 三人间
+		
+		allRooms.add(r1);
+		allRooms.add(r2);
+		allRooms.add(r3);
+		allRooms.add(r4);
+		
+		availableRooms.add(r1);
+		availableRooms.add(r2);
+		availableRooms.add(r3);
+		availableRooms.add(r4);
+		
+		checkedInRooms.clear();
+	}
+
+
+	public List<Room> getAvailableRooms(){
+		return availableRooms;
+	}
+	
+	public List<Room> getCheckedInRooms() {
+		return checkedInRooms;
+	}
+	
+	public List<Room> getAllRooms(){
+		return allRooms;
 	}
 	
 }

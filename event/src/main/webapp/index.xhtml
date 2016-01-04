@@ -7,9 +7,29 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core">
 <h:head>
-    <title>welcome to weld decorator</title>
+    <title>welcome to weld event demo</title>
+    <!-- css style partly from:www.coreservlets.com/JSF-Tutorial/jsf2 -->
+    <link href="css/styles.css" rel="stylesheet" type="text/css"/> 
+    <link href="css/table-styles.css" rel="stylesheet" type="text/css"/>
 </h:head>
 <h:body>
-    <h:outputText value="#{room.showRoom()}"/>
+<h:dataTable var="room"
+    value="#{roomController.availableRooms}"
+    border="1"
+    styleClass="mainTable"
+    captionClass="caption1"
+    headerClass="heading"
+    rowClasses="even,odd">
+    <f:facet name="caption">可入住房间列表</f:facet>
+    <h:column>
+        <f:facet name="header">房间号</f:facet>
+        <h:outputText value="#{room.no}"/>
+    </h:column>
+    
+    <h:column>
+        <f:facet name="header">操作</f:facet>
+        <h:commandButton value="点击入住"></h:commandButton>
+    </h:column>
+</h:dataTable>
 </h:body>
 </html>

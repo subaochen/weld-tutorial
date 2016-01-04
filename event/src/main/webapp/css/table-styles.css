@@ -1,0 +1,34 @@
+.mainTable {
+    margin-left: auto;
+	 margin-right: auto;
+	 width:100%;
+}
+.caption1 {
+	font-weight: bold;
+	font-size: 24px;
+	color: blue;
+}
+.caption2 {
+	font-weight: bold;
+	font-size: 24px;
+	color: red;
+}
+.heading {
+    font-weight: bold;
+    font-size: 20px;
+    color: black;
+    text-align: center;
+    background-color:lightblue;
+}
+.even {
+    font-size: 18px;
+    color: black;
+    background-color: white;
+    text-indent: 20px;
+}
+.odd {
+    font-size: 18px;
+    color: white;
+    background-color: lightgray;
+    text-indent: 20px;
+}
