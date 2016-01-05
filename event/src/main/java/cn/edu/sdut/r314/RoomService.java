@@ -8,14 +8,17 @@ import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.event.Observes;
 import javax.inject.Named;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 /**
  * 房间管理
  * @author subaochen
  *
  */
 @ApplicationScoped
-@Named("roomService")
 public class RoomService {
+    private Logger log = LoggerFactory.getLogger(RoomService.class);
 	private List<Room> rooms = new ArrayList<Room>(0);
 
 	/**
@@ -23,6 +26,7 @@ public class RoomService {
 	 * @param room
 	 */
 	public void onRoomCheckIn(@Observes @CheckIn Room room ) {
+        log.info("check in room:{}.",room);
 		setRoomStatus(room,RoomStatus.CHECKED_IN);
 	}
 
@@ -31,9 +35,10 @@ public class RoomService {
 	 * @param room
 	 */
 	public void onRoomCheckOut(@Observes @CheckOut Room room) {
+        log.info("check out room:{}.",room);
 		setRoomStatus(room,RoomStatus.AVAILABLE);
 	}
-	
+
 	private void setRoomStatus(Room room,RoomStatus status) {
 		for(Room r:rooms){
 			if(r.getNo().equals(room.getNo())) {
@@ -44,11 +49,13 @@ public class RoomService {
 	}
 
     public void onAddRoom(@Observes @Add Room room){
+        log.info("add room:{}.",room);
     	room.setStatus(RoomStatus.AVAILABLE.toString());
         rooms.add(room);
     }
 
     public void onRemoveRoom(@Observes @Remove Room room){
+        log.info("remove room:{}.",room);
         rooms.remove(room);
     }
 
@@ -65,7 +72,7 @@ public class RoomService {
 		List<Room> list = new ArrayList<Room>(0);
 		for(Room r:rooms)
 			if(r.getStatus().equals(status.toString())) list.add(r);
-		
+
 		return list;
 	}
 	public List<Room> getAvailableRooms(){

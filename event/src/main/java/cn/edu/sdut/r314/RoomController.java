@@ -5,9 +5,15 @@ import java.util.List;
 import javax.enterprise.event.Event;
 import javax.inject.Inject;
 import javax.inject.Named;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import javax.enterprise.context.RequestScoped;
 
 @Named("roomController")
+@RequestScoped
 public class RoomController {
+    private Logger log = LoggerFactory.getLogger(RoomController.class);
+
 	@Inject
 	@CheckIn
 	Event<Room> roomCheckInEvent;
@@ -17,11 +23,11 @@ public class RoomController {
 	Event<Room> roomCheckOutEvent;
 
 	@Inject
-	@CheckOut
+	@Add
 	Event<Room> roomAddEvent;
 
 	@Inject
-	@CheckOut
+	@Remove
 	Event<Room> roomRemoveEvent;
 
 
@@ -74,6 +80,7 @@ public class RoomController {
 
     public String addRoom(){
         if(this.newRoom == null) return null;
+        log.info("newRoom:{}.",this.newRoom);
         roomAddEvent.fire(this.newRoom);
         this.newRoom = new Room();
         return "";
