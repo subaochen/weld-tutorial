@@ -27,8 +27,8 @@
         <h:outputText value="#{room.no}"/>
     </h:column>
     <h:column>
-        <f:facet name="header">人数</f:facet>
-        <h:outputText value="#{room.capacity}"/>
+        <f:facet name="header">房型</f:facet>
+        <h:outputText value="#{room.type.label}"/>
     </h:column>
     
     <h:column>
@@ -51,8 +51,8 @@
         <h:outputText value="#{room.no}"/>
     </h:column>
     <h:column>
-        <f:facet name="header">人数</f:facet>
-        <h:outputText value="#{room.capacity}"/>
+        <f:facet name="header">房型</f:facet>
+        <h:outputText value="#{room.type.label}"/>
     </h:column>
     
     <h:column>
@@ -63,8 +63,15 @@
 
 <fieldset>
     <legend>增加房间</legend>
-    房间号：<h:inputText name="no" value="#{roomController.newRoom.no}"/>
-    大小：<h:inputText name="capacity" value="#{roomController.newRoom.capacity}"/>
+    房间号：<h:inputText name="no" value="#{roomController.newRoom.no}" size="10"/>
+    大小：
+    <h:selectOneMenu value="#{roomController.newRoom.type}">
+        <f:selectItems 
+            value="#{dataUtil.roomTypes}" 
+            var="type"
+            itemValue="#{type}"
+            itemLabel="#{type.label}"/>
+    </h:selectOneMenu>
     <h:commandButton value="增加房间" action="#{roomController.addRoom}"/>
 </fieldset>
 

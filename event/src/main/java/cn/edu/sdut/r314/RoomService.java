@@ -6,7 +6,6 @@ import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.event.Observes;
-import javax.inject.Named;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,38 +18,45 @@ import org.slf4j.LoggerFactory;
 @ApplicationScoped
 public class RoomService {
     private Logger log = LoggerFactory.getLogger(RoomService.class);
-	private List<Room> rooms = new ArrayList<Room>(0);
+    private List<Room> rooms = new ArrayList<Room>(0);
 
-	/**
-	 * 客户入住
-	 * @param room
-	 */
-	public void onRoomCheckIn(@Observes @CheckIn Room room ) {
+    /**
+     * 监听所有的客房事件
+     */
+    public void onRoomEvent(@Observes Room room) {
+        log.info("listening all room event:{}.",room);
+    }
+
+    /**
+     * 客户入住
+     * @param room
+     */
+    public void onRoomCheckIn(@Observes @CheckIn Room room ) {
         log.info("check in room:{}.",room);
-		setRoomStatus(room,RoomStatus.CHECKED_IN);
-	}
+        setRoomStatus(room,RoomStatus.CHECKED_IN);
+    }
 
-	/**
-	 * 客户退房
-	 * @param room
-	 */
-	public void onRoomCheckOut(@Observes @CheckOut Room room) {
+    /**
+     * 客户退房
+     * @param room
+     */
+    public void onRoomCheckOut(@Observes @CheckOut Room room) {
         log.info("check out room:{}.",room);
-		setRoomStatus(room,RoomStatus.AVAILABLE);
-	}
+        setRoomStatus(room,RoomStatus.AVAILABLE);
+    }
 
-	private void setRoomStatus(Room room,RoomStatus status) {
-		for(Room r:rooms){
-			if(r.getNo().equals(room.getNo())) {
-				r.setStatus(status.toString());
-				break;
-			}
-		}
-	}
+    private void setRoomStatus(Room room,RoomStatus status) {
+        for(Room r:rooms){
+            if(r.getNo().equals(room.getNo())) {
+                r.setStatus(status);
+                break;
+            }
+        }
+    }
 
     public void onAddRoom(@Observes @Add Room room){
         log.info("add room:{}.",room);
-    	room.setStatus(RoomStatus.AVAILABLE.toString());
+            room.setStatus(RoomStatus.AVAILABLE);
         rooms.add(room);
     }
 
@@ -59,32 +65,32 @@ public class RoomService {
         rooms.remove(room);
     }
 
-	@PostConstruct
-	public void init(){
-		rooms.add(new Room("101",RoomStatus.AVAILABLE.toString(),1));
-		rooms.add(new Room("104",RoomStatus.AVAILABLE.toString(),1));
-		rooms.add(new Room("102",RoomStatus.AVAILABLE.toString(),2));
-		rooms.add(new Room("103",RoomStatus.AVAILABLE.toString(),3));
-	}
+    @PostConstruct
+    public void init(){
+        rooms.add(new Room("101",RoomStatus.AVAILABLE,RoomType.ONE));
+        rooms.add(new Room("104",RoomStatus.AVAILABLE,RoomType.ONE));
+        rooms.add(new Room("102",RoomStatus.AVAILABLE,RoomType.TWO));
+        rooms.add(new Room("103",RoomStatus.AVAILABLE,RoomType.THREE));
+    }
 
 
-	private List<Room> getRooms(RoomStatus status) {
-		List<Room> list = new ArrayList<Room>(0);
-		for(Room r:rooms)
-			if(r.getStatus().equals(status.toString())) list.add(r);
+    private List<Room> getRooms(RoomStatus status) {
+        List<Room> list = new ArrayList<Room>(0);
+        for(Room r:rooms)
+            if(r.getStatus().equals(status)) list.add(r);
 
-		return list;
-	}
-	public List<Room> getAvailableRooms(){
-		return getRooms(RoomStatus.AVAILABLE);
-	}
+        return list;
+    }
+    public List<Room> getAvailableRooms(){
+        return getRooms(RoomStatus.AVAILABLE);
+    }
 
-	public List<Room> getCheckedInRooms() {
-		return getRooms(RoomStatus.CHECKED_IN);
-	}
+    public List<Room> getCheckedInRooms() {
+        return getRooms(RoomStatus.CHECKED_IN);
+    }
 
-	public List<Room> getAllRooms(){
-		return rooms;
-	}
+    public List<Room> getAllRooms(){
+        return rooms;
+    }
 
 }
