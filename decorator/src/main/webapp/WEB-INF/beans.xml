@@ -5,8 +5,9 @@
       http://java.sun.com/xml/ns/javaee
       http://java.sun.com/xml/ns/javaee/beans_1_0.xsd">
 	<!-- To activate CDI decorator, it must be specified below -->
+  <!-- 改变decorators类的顺序，观察一下浏览器的不同输出 -->
 	<decorators>
-		<class>cn.edu.sdut.r314.PaintedDecorator</class>
 		<class>cn.edu.sdut.r314.FlooredDecorator</class>
+		<class>cn.edu.sdut.r314.PaintedDecorator</class>
 	</decorators>
 </beans>
