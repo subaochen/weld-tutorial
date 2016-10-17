@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE html
+        PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html" 
+      xmlns:p="http://primefaces.org/ui" >
+<h:head>
+    <title>welcome to weld qualifiers demo</title>
+</h:head>
+<h:body>
+    <p style="font-size:16px"><h:outputText value="#{greetingController.sayHello()}"/></p>
+    <p><h:outputText value="#{greetingController.username}" id="echoName"/></p>
+    <h:form>
+        <p:inputText value="#{greetingController.username}"/>
+        <p:commandButton value="submit" ajax="false" update="echoName"/>
+    </h:form>
+    
+</h:body>
+</html>

@@ -8,23 +8,23 @@ import javax.inject.Named;
  */
 @Named
 public class RoomController {
-    
+
     /**
      * 订房
-     * @return 
+     * @return
      */
-    @Audit
+    @Audit @Logged
     public void checkin(){
         System.out.println("checkin room......");
     }
-    
+
     /**
      * 退房
-     * @return 
+     * @return
      */
-    //@Audit
+    @Audit
     public void checkout(){
         System.out.println("checkout room......");
     }
-    
+
 }
