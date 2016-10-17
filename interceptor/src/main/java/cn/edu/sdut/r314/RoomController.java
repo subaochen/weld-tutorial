@@ -13,7 +13,7 @@ public class RoomController {
      * 订房
      * @return 
      */
-    //@Audit
+    @Audit
     public void checkin(){
         System.out.println("checkin room......");
     }

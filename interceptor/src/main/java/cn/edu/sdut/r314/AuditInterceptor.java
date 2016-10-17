@@ -15,7 +15,7 @@ public class AuditInterceptor {
     @AroundInvoke
     public Object doAudit(InvocationContext ctx){
         System.out.println("doing audit @" + new Date() + "......");
-        return null;
+        return "";
     }
     
 }
