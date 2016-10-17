@@ -7,21 +7,22 @@ import javax.inject.Inject;
 
 @Model
 public class GreetingController {
-  
-  @Inject @Preferred Task task;
-  
+
+  @Inject
+  @Preferred
+  Task task;
+
   public String sayHello() {
     return "hello task:" + task.getName();
   }
 
- 
   @PostConstruct
-  public void init(){
+  public void init() {
     System.out.println("post construct......");
   }
-  
+
   @PreDestroy
-  public void destroy(){
+  public void destroy() {
     System.out.println("pre destroy......");
   }
 
