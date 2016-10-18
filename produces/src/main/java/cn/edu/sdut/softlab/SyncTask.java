@@ -5,11 +5,13 @@
  */
 package cn.edu.sdut.softlab;
 
+import java.io.Serializable;
+
 /**
  *
  * @author SuBaochen:subaochen@126.com
  */
-public class SyncTask implements Task {
+public class SyncTask implements Task,Serializable {
   
   public String getName() {
     return "sync task";

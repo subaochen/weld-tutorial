@@ -7,6 +7,7 @@
 package cn.edu.sdut.softlab;
 
 import java.io.Serializable;
+import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.context.RequestScoped;
 import javax.enterprise.context.SessionScoped;
 import javax.enterprise.inject.Produces;
@@ -15,10 +16,13 @@ import javax.enterprise.inject.Produces;
  *
  * @author SuBaochen:subaochen@126.com
  */
-@SessionScoped
+@RequestScoped
 public class TaskProducers implements Serializable {
 
   TaskType taskType = TaskType.ASYNC;
+  public TaskProducers() {
+    System.out.println("TaskProducers constructor called");
+  }
 
   /**
    * change from @RequestScoped to @ApplicationScoped to see what happened.
@@ -30,7 +34,7 @@ public class TaskProducers implements Serializable {
    */
   @Produces
   @Preferred
-  @RequestScoped
+  @SessionScoped
   public Task getTask(AsyncTask asyncTask, SyncTask syncTask) {
     System.out.println("getTask called......");
     switch (taskType) {
