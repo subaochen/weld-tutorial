@@ -18,12 +18,12 @@ public class GreetingController {
 
   @PostConstruct
   public void init() {
-    System.out.println("post construct......");
+    System.out.println("GreetingController post construct......");
   }
 
   @PreDestroy
   public void destroy() {
-    System.out.println("pre destroy......");
+    System.out.println("GreetingController pre destroy......");
   }
 
 }

@@ -5,11 +5,13 @@
  */
 package cn.edu.sdut.softlab;
 
+import java.io.Serializable;
+
 /**
  *
  * @author SuBaochen:subaochen@126.com
  */
-public class AsyncTask implements Task{
+public class AsyncTask implements Task,Serializable{
   
   public String getName() {
     return "async task";

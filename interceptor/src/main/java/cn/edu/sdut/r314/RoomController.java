@@ -7,13 +7,15 @@ import javax.inject.Named;
  * @author subaochen
  */
 @Named
+@Audit
 public class RoomController {
 
     /**
      * 订房
      * @return
      */
-    @Audit @Logged
+    //@Audit
+    @Logged
     public void checkin(){
         System.out.println("checkin room......");
     }
@@ -22,7 +24,7 @@ public class RoomController {
      * 退房
      * @return
      */
-    @Audit
+    //@Audit
     public void checkout(){
         System.out.println("checkout room......");
     }
